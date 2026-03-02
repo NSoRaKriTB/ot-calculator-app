@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>คำนวณค่าล่วงเวลา (OT) ตามกฎหมายแรงงานไทย | OT Calculator</title>
+  <meta name="description" content="เครื่องมือคำนวณค่าล่วงเวลา (OT) ตามกฎหมายแรงงานไทย พ.ร.บ.คุ้มครองแรงงาน คำนวณค่าโอทีวันปกติ วันหยุด วันหยุดนักขัตฤกษ์ ง่าย แม่นยำ ฟรี">
+  <meta name="keywords" content="คำนวณค่าล่วงเวลา, OT, ค่าโอที, กฎหมายแรงงาน, ค่าล่วงเวลา, overtime, คำนวณเงินเดือน, ค่าแรง, พ.ร.บ.คุ้มครองแรงงาน">
+  <meta name="author" content="OT Calculator Thailand">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://ot-calculator.example.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="คำนวณค่าล่วงเวลา (OT) ตามกฎหมายแรงงานไทย">
+  <meta property="og:description" content="เครื่องมือคำนวณค่าล่วงเวลา (OT) ตามกฎหมายแรงงาน คำนวณค่าโอทีวันปกติ วันหยุด วันหยุดนักขัตฤกษ์ ง่าย แม่นยำ ฟรี">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="th_TH">
+  <meta property="og:url" content="https://ot-calculator.example.com/">
+  <meta property="og:site_name" content="OT Calculator Thailand">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="คำนวณค่าล่วงเวลา (OT) ตามกฎหมายแรงงานไทย">
+  <meta name="twitter:description" content="คำนวณค่าโอทีตามกฎหมายแรงงาน ง่าย แม่นยำ ฟรี">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "เครื่องมือคำนวณค่าล่วงเวลา (OT)",
+    "description": "คำนวณค่าล่วงเวลา (OT) ตามกฎหมายแรงงานไทย พ.ร.บ.คุ้มครองแรงงาน",
+    "url": "https://ot-calculator.example.com/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "THB"
+    },
+    "inLanguage": "th"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "ค่าล่วงเวลา (OT) คำนวณอย่างไร?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ค่าล่วงเวลาคำนวณจากอัตราค่าจ้างต่อชั่วโมง คูณด้วยจำนวนชั่วโมง OT คูณด้วยอัตราทดตามกฎหมาย เช่น วันทำงานปกติ 1.5 เท่า วันหยุด 3 เท่า"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "อัตราค่าล่วงเวลาตามกฎหมายแรงงานไทยเป็นอย่างไร?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ตามกฎหมายแรงงานไทย ค่าล่วงเวลาวันทำงานปกติ 1.5 เท่า, ทำงานในวันหยุด (ช่วงเวลาปกติ) 1-2 เท่า, ล่วงเวลาในวันหยุด 3 เท่า"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" role="banner">
+    <div class="container">
+      <div class="header-content">
+        <h1 class="logo">
+          <span class="logo-icon" aria-hidden="true">&#9201;</span>
+          OT Calculator
+        </h1>
+        <p class="header-subtitle">คำนวณค่าล่วงเวลาตามกฎหมายแรงงานไทย</p>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="สลับโหมดมืด/สว่าง">
+          <span class="theme-icon" id="themeIcon" aria-hidden="true">&#9790;</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main" role="main">
+    <div class="container">
+      <!-- Calculator Section -->
+      <section class="calculator-section" aria-labelledby="calc-heading">
+        <h2 id="calc-heading" class="sr-only">เครื่องคำนวณค่าล่วงเวลา</h2>
+
+        <form id="otForm" class="calc-form" novalidate>
+          <!-- Salary Input -->
+          <fieldset class="form-group">
+            <legend class="form-legend">ข้อมูลเงินเดือน</legend>
+
+            <div class="input-row">
+              <div class="input-field">
+                <label for="salaryType" class="label">ประเภทเงินเดือน</label>
+                <select id="salaryType" class="select" required>
+                  <option value="monthly">รายเดือน</option>
+                  <option value="daily">รายวัน</option>
+                  <option value="hourly">รายชั่วโมง</option>
+                </select>
+              </div>
+              <div class="input-field">
+                <label for="salary" class="label">
+                  <span id="salaryLabel">เงินเดือน (บาท/เดือน)</span>
+                </label>
+                <input
+                  type="number"
+                  id="salary"
+                  class="input"
+                  placeholder="เช่น 15000"
+                  min="1"
+                  step="1"
+                  required
+                  aria-describedby="salaryHelp"
+                  inputmode="numeric"
+                >
+                <small id="salaryHelp" class="help-text">กรอกจำนวนเงินเป็นตัวเลข</small>
+              </div>
+            </div>
+
+            <div class="input-row" id="workingDaysRow">
+              <div class="input-field">
+                <label for="workingDays" class="label">จำนวนวันทำงาน/เดือน</label>
+                <select id="workingDays" class="select">
+                  <option value="30">30 วัน (ตามกฎหมาย)</option>
+                  <option value="26">26 วัน</option>
+                  <option value="22">22 วัน</option>
+                </select>
+              </div>
+              <div class="input-field">
+                <label for="hoursPerDay" class="label">ชั่วโมงทำงาน/วัน</label>
+                <select id="hoursPerDay" class="select">
+                  <option value="8">8 ชั่วโมง</option>
+                  <option value="7">7 ชั่วโมง</option>
+                  <option value="6">6 ชั่วโมง</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- OT Type -->
+          <fieldset class="form-group">
+            <legend class="form-legend">ประเภทการทำล่วงเวลา</legend>
+
+            <div class="ot-type-grid" role="radiogroup" aria-label="เลือกประเภทการทำล่วงเวลา">
+              <label class="ot-type-card active">
+                <input type="radio" name="otType" value="workday_ot" checked>
+                <span class="ot-type-rate">1.5x</span>
+                <span class="ot-type-name">OT วันทำงานปกติ</span>
+                <span class="ot-type-desc">ทำงานเกินเวลาในวันทำงานปกติ</span>
+              </label>
+
+              <label class="ot-type-card">
+                <input type="radio" name="otType" value="holiday_work">
+                <span class="ot-type-rate">1x</span>
+                <span class="ot-type-name">ทำงานวันหยุด</span>
+                <span class="ot-type-desc">ทำงานในเวลาปกติของวันหยุด (ลูกจ้างรายเดือน)</span>
+              </label>
+
+              <label class="ot-type-card">
+                <input type="radio" name="otType" value="holiday_work_daily">
+                <span class="ot-type-rate">2x</span>
+                <span class="ot-type-name">ทำงานวันหยุด (รายวัน)</span>
+                <span class="ot-type-desc">ทำงานในเวลาปกติของวันหยุด (ลูกจ้างรายวัน/ชั่วโมง)</span>
+              </label>
+
+              <label class="ot-type-card">
+                <input type="radio" name="otType" value="holiday_ot">
+                <span class="ot-type-rate">3x</span>
+                <span class="ot-type-name">OT วันหยุด</span>
+                <span class="ot-type-desc">ทำงานเกินเวลาในวันหยุด</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- OT Hours -->
+          <fieldset class="form-group">
+            <legend class="form-legend">จำนวนชั่วโมง OT</legend>
+
+            <div class="hours-input-section">
+              <div class="input-field">
+                <label for="otHours" class="label">จำนวนชั่วโมง</label>
+                <div class="hours-control">
+                  <button type="button" class="hours-btn" id="decreaseHours" aria-label="ลดจำนวนชั่วโมง">-</button>
+                  <input
+                    type="number"
+                    id="otHours"
+                    class="input hours-input"
+                    placeholder="0"
+                    min="0"
+                    max="744"
+                    step="0.5"
+                    required
+                    inputmode="decimal"
+                  >
+                  <button type="button" class="hours-btn" id="increaseHours" aria-label="เพิ่มจำนวนชั่วโมง">+</button>
+                </div>
+              </div>
+
+              <div class="quick-hours">
+                <span class="quick-hours-label">เลือกด่วน:</span>
+                <button type="button" class="quick-btn" data-hours="1">1 ชม.</button>
+                <button type="button" class="quick-btn" data-hours="2">2 ชม.</button>
+                <button type="button" class="quick-btn" data-hours="3">3 ชม.</button>
+                <button type="button" class="quick-btn" data-hours="4">4 ชม.</button>
+                <button type="button" class="quick-btn" data-hours="8">8 ชม.</button>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Action Buttons -->
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="calculateBtn">
+              <span aria-hidden="true">&#9874;</span> คำนวณค่า OT
+            </button>
+            <button type="reset" class="btn btn-secondary" id="resetBtn">
+              ล้างข้อมูล
+            </button>
+          </div>
+        </form>
+
+        <!-- Result Section -->
+        <div id="resultSection" class="result-section" hidden aria-live="polite">
+          <h3 class="result-heading">ผลการคำนวณ</h3>
+
+          <div class="result-card">
+            <div class="result-main">
+              <span class="result-label">ค่าล่วงเวลาที่ได้รับ</span>
+              <span class="result-amount" id="resultAmount">0.00</span>
+              <span class="result-currency">บาท</span>
+            </div>
+
+            <div class="result-breakdown">
+              <div class="breakdown-item">
+                <span class="breakdown-label">อัตราค่าจ้างต่อชั่วโมง</span>
+                <span class="breakdown-value" id="hourlyRate">0.00 บาท</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">ประเภท OT</span>
+                <span class="breakdown-value" id="otTypeDisplay">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">อัตราทด</span>
+                <span class="breakdown-value" id="otMultiplier">-</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">จำนวนชั่วโมง</span>
+                <span class="breakdown-value" id="otHoursDisplay">0 ชม.</span>
+              </div>
+              <div class="breakdown-item breakdown-formula">
+                <span class="breakdown-label">สูตรคำนวณ</span>
+                <span class="breakdown-value" id="formulaDisplay">-</span>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-outline" id="saveResultBtn">
+            <span aria-hidden="true">&#128190;</span> บันทึกผลลัพธ์
+          </button>
+        </div>
+      </section>
+
+      <!-- History Section -->
+      <section class="history-section" aria-labelledby="history-heading">
+        <div class="history-header">
+          <h2 id="history-heading">ประวัติการคำนวณ</h2>
+          <button type="button" class="btn btn-text" id="clearHistoryBtn" hidden>ล้างประวัติ</button>
+        </div>
+
+        <div id="historyList" class="history-list">
+          <p class="history-empty" id="historyEmpty">ยังไม่มีประวัติการคำนวณ</p>
+        </div>
+
+        <!-- Monthly Summary -->
+        <div id="monthlySummary" class="monthly-summary" hidden>
+          <h3 class="summary-heading">สรุปรวม</h3>
+          <div class="summary-grid">
+            <div class="summary-card">
+              <span class="summary-label">จำนวนครั้ง</span>
+              <span class="summary-value" id="summaryCount">0</span>
+            </div>
+            <div class="summary-card">
+              <span class="summary-label">ชั่วโมงรวม</span>
+              <span class="summary-value" id="summaryHours">0</span>
+            </div>
+            <div class="summary-card highlight">
+              <span class="summary-label">ค่า OT รวม</span>
+              <span class="summary-value" id="summaryTotal">0 ฿</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Info Section for SEO -->
+      <section class="info-section" aria-labelledby="info-heading">
+        <h2 id="info-heading">อัตราค่าล่วงเวลาตามกฎหมายแรงงานไทย</h2>
+
+        <article class="info-article">
+          <p>ตามพระราชบัญญัติคุ้มครองแรงงาน พ.ศ. 2541 กำหนดอัตราค่าล่วงเวลาไว้ดังนี้:</p>
+
+          <div class="rate-table-wrapper">
+            <table class="rate-table">
+              <caption class="sr-only">ตารางอัตราค่าล่วงเวลาตามกฎหมายแรงงานไทย</caption>
+              <thead>
+                <tr>
+                  <th scope="col">ประเภท</th>
+                  <th scope="col">อัตราทด</th>
+                  <th scope="col">รายละเอียด</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>ล่วงเวลาวันทำงานปกติ</td>
+                  <td><strong>1.5 เท่า</strong></td>
+                  <td>ทำงานเกินเวลาทำงานปกติในวันทำงาน</td>
+                </tr>
+                <tr>
+                  <td>ทำงานวันหยุด (รายเดือน)</td>
+                  <td><strong>1 เท่า</strong></td>
+                  <td>ลูกจ้างรายเดือนทำงานในเวลาปกติของวันหยุด</td>
+                </tr>
+                <tr>
+                  <td>ทำงานวันหยุด (รายวัน)</td>
+                  <td><strong>2 เท่า</strong></td>
+                  <td>ลูกจ้างรายวันทำงานในเวลาปกติของวันหยุด</td>
+                </tr>
+                <tr>
+                  <td>ล่วงเวลาวันหยุด</td>
+                  <td><strong>3 เท่า</strong></td>
+                  <td>ทำงานเกินเวลาทำงานปกติในวันหยุด</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>วิธีคำนวณค่าล่วงเวลา</h3>
+          <p>สูตรพื้นฐาน: <strong>ค่าจ้างต่อชั่วโมง × อัตราทด × จำนวนชั่วโมง OT</strong></p>
+          <p>โดยอัตราค่าจ้างต่อชั่วโมง = เงินเดือน ÷ 30 ÷ จำนวนชั่วโมงทำงานต่อวัน (ตามมาตรฐานกฎหมาย)</p>
+
+          <h3>ข้อควรรู้เกี่ยวกับ OT</h3>
+          <ul>
+            <li>นายจ้างจะให้ลูกจ้างทำงานล่วงเวลาได้ ต้องได้รับความยินยอมจากลูกจ้าง</li>
+            <li>เวลาทำงานปกติไม่เกิน 8 ชั่วโมงต่อวัน หรือตามที่นายจ้างและลูกจ้างตกลงกัน</li>
+            <li>OT รวมไม่ควรเกิน 36 ชั่วโมงต่อสัปดาห์</li>
+            <li>ลูกจ้างมีสิทธิ์ได้รับวันหยุดประจำสัปดาห์ไม่น้อยกว่า 1 วันต่อสัปดาห์</li>
+          </ul>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <p>เครื่องมือนี้จัดทำขึ้นเพื่อเป็นข้อมูลอ้างอิงเบื้องต้น ควรตรวจสอบกับฝ่ายบุคคลหรือหน่วยงานที่เกี่ยวข้อง</p>
+      <p>อ้างอิง: <cite>พระราชบัญญัติคุ้มครองแรงงาน พ.ศ. 2541</cite></p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

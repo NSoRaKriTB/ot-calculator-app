@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_Thai } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 
 const notoSansThai = Noto_Sans_Thai({
@@ -51,6 +52,7 @@ export default function RootLayout({
       <body className={`${notoSansThai.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>
